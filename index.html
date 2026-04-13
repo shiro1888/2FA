@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <title>2FA TOTP Generator</title>
+    <meta
+      name="description"
+      content="Google Authenticator 风格的 2FA 实时验证码页面，支持 Base32 Secret、otpauth:// 链接与二维码上传识别。"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+    <script type="module" src="./app.js"></script>
+  </head>
+  <body>
+    <main class="page">
+      <header class="intro">
+        <p class="eyebrow">LOCAL TOTP</p>
+        <h1>Google Authenticator 风格的 2FA 实时验证码页面</h1>
+        <p class="lede">
+          输入 Base32 Secret、粘贴 <code>otpauth://</code> 链接，或者直接上传二维码图片，
+          页面会在浏览器本地生成验证码。支持通过地址栏
+          <code>?secret=...</code> 直接预填。
+        </p>
+      </header>
+
+      <section class="workspace" aria-labelledby="generator-title">
+        <div class="field-block">
+          <div class="label-row">
+            <label for="secretInput" id="generator-title">Secret / otpauth 链接</label>
+            <span class="field-hint" id="sourceHint">支持粘贴 otpauth://totp/...</span>
+          </div>
+
+          <textarea
+            id="secretInput"
+            class="secret-input"
+            rows="3"
+            spellcheck="false"
+            autocomplete="off"
+            autocapitalize="off"
+            placeholder="例如：NHTUBR7DDY5KTECMTMYLEVJKJ3ZDY6VG 或 otpauth://totp/..."
+          ></textarea>
+
+          <div class="upload-row">
+            <input id="qrFileInput" class="sr-only" type="file" accept="image/*" />
+            <button
+              id="uploadQrButton"
+              type="button"
+              class="button button-secondary button-compact"
+            >
+              上传二维码识别
+            </button>
+            <p class="upload-status" id="uploadStatus" data-tone="neutral">
+              上传二维码图片后，自动提取其中的 otpauth 链接或 Base32 Secret。
+            </p>
+          </div>
+        </div>
+
+        <div class="action-row">
+          <button id="clearButton" type="button" class="button button-secondary">
+            清空输入
+          </button>
+          <button id="copyButton" type="button" class="button" disabled>
+            复制验证码
+          </button>
+        </div>
+
+        <section class="token-panel" aria-live="polite">
+          <p class="token-label" id="profileName">等待输入 Secret</p>
+          <p class="token-meta" id="profileMeta">
+            所有计算都在当前浏览器完成，不会把密钥提交到服务端。
+          </p>
+
+          <div class="token-code" id="codeOutput">--- ---</div>
+
+          <div class="progress-track" aria-hidden="true">
+            <span id="progressBar"></span>
+          </div>
+
+          <p class="countdown" id="countdownText">
+            可通过 <code>?secret=YOUR_BASE32_SECRET</code> 方式直接预填。
+          </p>
+
+          <p class="error" id="errorText" hidden></p>
+        </section>
+      </section>
+
+      <section class="notes" aria-label="使用说明">
+        <div class="note">
+          <h2>使用方式</h2>
+          <p>直接输入 Base32 Secret，或者粘贴二维码背后的 otpauth 链接。</p>
+        </div>
+
+        <div class="note">
+          <h2>二维码上传</h2>
+          <p>支持上传二维码图片自动识别；推荐使用最新版 Chrome 或 Edge 以获得更稳定的识别效果。</p>
+        </div>
+
+        <div class="note">
+          <h2>链接预填</h2>
+          <p>
+            示例：<code>/2fa/?secret=YOUR_BASE32_SECRET</code>。如果是公开站点，不建议把真实密钥长期暴露在 URL。
+          </p>
+        </div>
+      </section>
+
+      <section class="star-history" aria-labelledby="star-history-title">
+        <div class="star-history-copy">
+          <p class="eyebrow">Repo Signal</p>
+          <h2 id="star-history-title">GitHub Star History</h2>
+          <p>
+            这个图表会在仓库推送到 GitHub 后开始累计展示当前项目的 Star 变化趋势。
+          </p>
+        </div>
+
+        <a
+          class="star-history-link"
+          href="https://star-history.com/#shiro1888/2FA&Date"
+          target="_blank"
+          rel="noreferrer"
+          aria-label="查看 shiro1888/2FA 的 Star History"
+        >
+          <img
+            src="https://api.star-history.com/svg?repos=shiro1888/2FA&type=Date"
+            alt="shiro1888/2FA 的 GitHub Star History 图表"
+            loading="lazy"
+          />
+        </a>
+      </section>
+    </main>
+  </body>
+</html>
